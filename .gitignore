@@ -1,7 +1,10 @@
-# Prerequisites
-*.d
+# Miscellaneous
+*.png
+*.jpg
+__pycache__/
 
 # Object files
+*.d
 *.o
 *.ko
 *.obj
