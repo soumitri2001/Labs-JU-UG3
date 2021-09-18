@@ -1,6 +1,8 @@
 # Miscellaneous
 *.png
 *.jpg
+*.class
+*.pyc
 __pycache__/
 venv/
 env/
