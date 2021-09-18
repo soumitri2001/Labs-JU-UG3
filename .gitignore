@@ -2,6 +2,8 @@
 *.png
 *.jpg
 __pycache__/
+venv/
+env/
 
 # Object files
 *.d
