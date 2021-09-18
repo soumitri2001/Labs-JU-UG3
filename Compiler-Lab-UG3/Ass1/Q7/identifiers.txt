@@ -1,0 +1,1 @@
+man vi cat vi mv cd rm sudo man
