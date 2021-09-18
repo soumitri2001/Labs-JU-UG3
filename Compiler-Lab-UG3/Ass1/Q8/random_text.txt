@@ -1,0 +1,7 @@
+Randomness and random numbers have traditionally been used for a variety of purposes, for ex-ample games such as dice games.  With the advent of computers, people recognized the need for ameans of introducing randomness into a computer program.  
+Surprising as it may seem, however,it is difficult to get a computer to do something by chance.  
+A computer running a program followsits instructions blindly and is therefore completely predictable.
+Computer  engineers  chose  to  introduce  randomness  into  computers  in  the  form  of  pseudo-random number generators.  As the name suggests, pseudo-random numbers are not truly random.Rather,  they  are  computed  from  a  mathematical  formula  or  simply  taken  from  a  precalculatedlist.   A  lot  of  research  has  gone  into  pseudo-random  number  theory  and  modern  algorithms  
+for generating them are so good that the numbers look exactly like they were really random.  
+Pseudo-random numbers have the characteristic that they are predictable, meaning they can be predictedif you know where in the sequence the first number is taken from.  
+For some purposes, predictability is a good characteristic, for others it is not.
