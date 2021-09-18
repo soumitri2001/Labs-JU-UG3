@@ -3,6 +3,8 @@
 *.jpg
 *.class
 *.pyc
+*.zip
+*.rar
 __pycache__/
 venv/
 env/
