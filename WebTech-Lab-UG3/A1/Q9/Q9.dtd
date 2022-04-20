@@ -1,0 +1,10 @@
+<!ELEMENT question-paper (question*)> 
+<!ELEMENT question (text, optionA, optionB, optionC, optionD, answer)> 
+<!ELEMENT text (#PCDATA)> 
+<!ELEMENT optionA (#PCDATA)> 
+<!ELEMENT optionB (#PCDATA)> 
+<!ELEMENT optionC (#PCDATA)> 
+<!ELEMENT optionD (#PCDATA)> 
+<!ELEMENT answer (#PCDATA)> 
+ <!ATTLIST question no CDATA #REQUIRED> 
+<!ATTLIST answer value  (optionA|optionB|optionC|optionD) #REQUIRED>

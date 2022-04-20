@@ -1,0 +1,25 @@
+<html>
+    <div>
+        <label for="username">USERNAME : </label>
+        <input type="text" id="username" name="username" placeholder="enter username"><br><br>
+        <label for="password">PASSWORD : </label>
+        <input type="password" id="password" name="password" placeholder="enter paassword"><br><br>
+        <button id="submit" onclick=submitAlert()>SUBMIT</button> <br>
+    </div>    
+
+<!-- <input type="name" id="username" placeholder="enter name"/>
+<input type="password" id="password" placeholder="enter password"/>
+<br><br>
+<button type="submit" id="submit" onclick="submitAlert()">SUBMIT</button> -->
+
+<script>
+    function submitAlert() {
+        var uname = document.getElementById("username").value;
+        var upass = document.getElementById("password").value;
+        if(!alert("You have submitted:\nUsername: "+ uname + "\nPassword: " + upass)){
+            window.location.reload();
+        }
+    }
+</script>
+
+</html>

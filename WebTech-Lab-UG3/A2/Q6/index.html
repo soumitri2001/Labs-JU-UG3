@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>States & Districts</title>
+</head>
+<body>
+	<form>
+		<label for="states">Choose a state: </label>
+		<select id="states" onChange="handleStateChange()">
+			<option value="West Bengal">West Bengal</option>
+			<option value="Maharashtra">Maharashtra</option>
+			<option value="Odisha">Odisha</option>
+		</select>
+	</br>
+		<label for="districts">Select a district: </label>
+		<select id="districts"></select>
+
+        <button type="button" onclick="getDistrictDetails()">Submit</button>
+	</form>
+
+	<h3 id="display" style="display: none; color: red"></h3>
+
+	<script type="text/javascript">
+		var httpRequest;
+		function handleStateChange() {
+			
+			httpRequest = new XMLHttpRequest();
+			
+			if (!httpRequest) {
+				alert('Giving up :( Cannot create an XMLHTTP instance');
+				return false;
+			}
+			try{
+				console.log("Sending request");
+				const state = document.getElementById("states").value;
+				httpRequest.onreadystatechange = alertContents;
+				httpRequest.open('GET', `info.jsp?state=${state}`, true);
+				httpRequest.send(`state=${states}&district=${districts}`);
+			}catch (e) {
+              alert("Not able to connect to server");
+          }
+		}        
+
+        function alertContents() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+			console.log(httpRequest.status);
+            if (httpRequest.status === 200) {
+              const display = document.getElementById("display");
+              display.style.display = "block";
+              //getting data from backend and displaying each district
+              let data = (httpRequest.responseText);
+			  console.log(data);
+			  data = data.replaceAll('\r', '');
+			  data = data.split('\n');
+			  for (let i = 0; i < data.length; i++) {
+				    if (data[i]===''){
+						console.log("deleted data: ", data[i]);
+				  		data.splice(i, 1);
+					  	i--;
+					}
+			  }
+			  console.log(data);
+              const districts = document.getElementById("districts");
+              districts.innerHTML = "";
+              for(let i = 0; i < data.length; i++){
+              	districts.options[districts.options.length] = new Option(data[i], data[i]);
+              }
+            } else {
+              alert('There was a problem with the request.');
+            }
+          }
+        }
+
+		function getDistrictDetails() {
+
+			httpRequest = new XMLHttpRequest();
+			
+			if (!httpRequest) {
+				alert('Giving up :( Cannot create an XMLHTTP instance');
+				return false;
+			}
+			try{
+				console.log("Sending request");
+				const district = document.getElementById("districts").value;
+				httpRequest.onreadystatechange = displayInfo;
+				httpRequest.open('GET', `info.jsp?district=${district}`, true);
+				httpRequest.send();
+				console.log("request sent successfully");
+			}catch (e) {
+              alert("Not able to connect to server");
+          }
+
+		  function displayInfo() {
+			if (httpRequest.readyState === XMLHttpRequest.DONE) {
+				console.log(httpRequest.status);
+				if (httpRequest.status === 200) {
+					const display = document.getElementById("display");
+					display.style.display = "block";
+					//getting data from backend and displaying each district
+					const data = httpRequest.responseText;
+					console.log(data);
+					display.innerHTML = data;
+				} else {
+					alert('There was a problem with the request.');
+				}
+          	}
+		  }
+		}
+      
+	</script>
+</body>
+</html>

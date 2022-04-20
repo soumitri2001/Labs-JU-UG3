@@ -1,0 +1,50 @@
+<?xml-stylesheet type="text/xsl" href="xslt.xsl"?>
+
+<!DOCTYPE question-paper
+[
+<!ELEMENT question-paper (question*)>
+<!ELEMENT question (text, optionA, optionB, optionC, optionD, answer)>
+<!ELEMENT text (#PCDATA)>
+<!ELEMENT optionA (#PCDATA)>
+<!ELEMENT optionB (#PCDATA)>
+<!ELEMENT optionC (#PCDATA)>
+<!ELEMENT optionD (#PCDATA)>
+<!ELEMENT answer (#PCDATA)>
+<!ATTLIST question no CDATA #REQUIRED>
+<!ATTLIST answer value (optionA|optionB|optionC|optionD) #REQUIRED>
+]>
+
+<question-paper>
+    <question no="1">
+        <text>What is capital of India ?</text>
+        <optionA>Mumbai</optionA>
+        <optionB>New Delhi</optionB>
+        <optionC>Kolkata</optionC>
+        <optionD>None</optionD>
+        <answer value="optionB"/>
+    </question>
+    <question no="2">
+        <text>Who is Anjan Dutt ?</text>
+        <optionA>Singer</optionA>
+        <optionB>Writer</optionB>
+        <optionC>Director</optionC>
+        <optionD>All</optionD>
+        <answer value="optionD"/>
+    </question>
+    <question no="3">
+        <text>Which is a racing sport?</text>
+        <optionA>Cricket</optionA>
+        <optionB>Table Tennis</optionB>
+        <optionC>Football</optionC>
+        <optionD>Formula 1</optionD>
+        <answer value="optionD"/>
+    </question>
+    <question no="4">
+        <text>Who is publisher of CVPR ?</text>
+        <optionA>Elsevier</optionA>
+        <optionB>IEEE</optionB>
+        <optionC>Springer</optionC>
+        <optionD>Wiley</optionD>
+        <answer value="optionB"/>
+    </question>
+</question-paper>

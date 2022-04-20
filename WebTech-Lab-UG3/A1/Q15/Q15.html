@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SSE Example</title>
+	<script type="text/javascript">
+		function initSSE(){
+			var eventSource=new EventSource("sse.jsp");
+			eventSource.addEventListener("stock_one",function(event){
+				console.log(event.data);
+				document.getElementById("stock1").innerHTML=event.data;
+			},false);
+			eventSource.addEventListener("stock_two",function(event){
+				console.log(event.data);
+				document.getElementById("stock2").innerHTML=event.data;
+			},false);
+		}
+	</script>
+</head>
+<body>
+<button onclick="initSSE()">Check stock values</button>
+<p>Stock 1:</p>
+<p id="stock1"></p>
+<p>Stock 2:</p>
+<p id="stock2"></p>
+</body>
+</html>

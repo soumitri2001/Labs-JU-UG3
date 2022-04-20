@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <form>
+        <label for = "number">Enter number to compute factorial: </label>
+        <input type = "number" id = "number"> </br> </br>
+   
+        <button type="button" onclick="startWorker()">SUBMIT</button>
+   
+        <h3 id="reslt" style="display: none"></h3>
+    </form>
+
+    <script>
+        var w;
+        function startWorker() {
+            // e.preventDefault();
+            const value =  document.getElementById("number").value;
+            console.log("passing number", value);
+
+            if (typeof(Worker) !== "undefined") {
+                if (typeof(w) == "undefined") {
+                    w = new Worker("factorial.js");
+                }
+                w.postMessage({'cmd': 'calculate', 'value': value});
+                w.onmessage = function(e) {
+                    const result = document.getElementById("reslt");
+                    result.style.display = "block";
+                    result.innerText = e.data;
+                }
+            } else {
+                alert("Web worker not supported !!");
+            }
+        }
+    </script>
+</body>
+</html>

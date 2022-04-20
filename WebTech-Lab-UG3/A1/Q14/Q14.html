@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Chat Application WebSocket</title>
+   <meta charset="utf-8">
+
+   
+   <script type="text/javascript">
+      
+      function start()
+      {
+         username=document.getElementById('username').value;
+         if(username!=""){
+            var element=document.getElementById("userinfo");
+            element.style.display="none";
+            document.getElementById("chatbox").style.display="block";
+            startSocket();
+         }
+         else
+         {
+            alert('Please enter a username');
+         }
+      }
+
+
+      function startSocket()
+      {
+         if(window.WebSocket)
+         {
+            socket=new WebSocket("ws://localhost:8002/chat/"+username);
+         }
+         else
+         {
+            show("Browser doesn't support WebSocket");
+            return;
+         }
+         socket.onopen=function(){
+            console.log('Connection established');
+            var chatElement=document.getElementById('message');
+            chatElement.onkeydown=function(event){
+               if(event.keyCode==13)
+               {
+                  socket.send(chatElement.value);
+                  chatElement.value='';
+               }
+            }
+         };
+         socket.onclose=function(){
+            show('Connection closed');
+         };
+         socket.onerror=function(){
+            show('Error!');
+            //console.log("Error : ",error);
+         };
+         socket.onmessage=function(event){
+            //var sender =event.data.split(":")[0];
+            //var msg=event.data.split(":")[1];
+            show(event.data);
+         };
+      }
+
+      function sendMessage()
+      {
+         socket.send(document.getElementById("message").value);
+         document.getElementById("message").value="";
+      }
+
+      function show(message){
+         var op=document.getElementById('output');
+         op.innerHTML=op.innerHTML+'<p>'+message+'</p>';
+         console.log(message);
+      }
+   </script>
+
+</head>
+<body>
+
+<div id="userinfo" style="display: block;">
+   <label>Name: </label><input type="text" name="username" id="username"/>
+   <button onclick="start()">Start</button>
+</div>
+
+<div id="chatbox" style="display: none;">
+   <label>Message: </label><input type="textarea" name="message" rows="2" id="message" />
+   <button onclick="sendMessage()">Send</button>
+   <span id="output"></span>
+</div>
+
+</body>
+</html>

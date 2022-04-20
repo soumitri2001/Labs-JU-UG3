@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Change password</title>
+</head>
+<body>
+	<form>
+        <label for = "username">Login Name:</label>
+        <input type = "text" id = "username" name="user"> </br> </br>
+    
+        <label for = "oldPassword">Old Password: </label>
+        <input type = "password" id = "oldPassword" placeholder="**********" name="oldPassword"> </br> </br>
+
+        <label for = "newPassword">New Password: </label>
+        <input type = "password" id = "newPassword" placeholder="**********" name="newPassword"> </br> </br>
+
+        <label for = "confirmPassword">Confirm Password: </label>
+        <input type = "password" id = "confirmPassword" placeholder="**********" name="confirmPassword"> </br> </br>
+    
+        <button type="button" onclick="requestServer()">Submit</button>
+    
+        <h3 id="display" style="display: none; color: red"></h3>
+    </form>
+
+    <script type="text/javascript">
+    	function requestServer() {
+          var httpRequest;
+          httpRequest = new XMLHttpRequest();
+
+          if (!httpRequest) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+          }
+          try{
+              console.log("Sending request");
+              const username = document.getElementById("username").value;
+              const oldPassword = document.getElementById("oldPassword").value;
+              const newPassword = document.getElementById("newPassword").value;
+              const confirmPassword = document.getElementById("confirmPassword").value;
+              httpRequest.onreadystatechange = alertContents;
+              httpRequest.open('POST', 'password.jsp', true);
+              httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+              httpRequest.send(`user=${username}&oldPassword=${oldPassword}&newPassword=${newPassword}&confirmPassword=${confirmPassword}`);
+          } catch (e) {
+              alert("Not able to connect to server");
+          }
+        
+
+        function alertContents() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+              // alert(httpRequest.responseText);
+              const display = document.getElementById("display");
+              display.style.display = "block";
+              display.innerText = httpRequest.responseText;
+            } else {
+              // alert('There was a problem with the request.');
+              display.innerText = httpRequest.responseText;
+            }
+          }
+        }
+      }
+    </script>
+</body>
+</html>

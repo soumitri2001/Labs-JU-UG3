@@ -1,0 +1,65 @@
+ <html>  
+     <h3>Welcome to the Academic Page !!</h3>
+    <body>
+        <p>Select Year: </p>
+        <select name="year" id = "year">
+            <option>Select Academic Year</option>
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+            <option value="3">3rd</option>
+            <option value="4">4th</option>
+
+        </select>
+
+        <datalist id="exampleList">
+        <option value="A">  
+        <option value="B">
+        </datalist>
+
+        <p>Select Semester: </p>
+        <select name="semester"  id = "semester">
+            <option>Select Academic Semester</option>
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+
+        </select>
+
+        <br><br><br><br>
+        <button id="submitButton">Submit</button>
+
+        <br><br>
+
+        <div id="listOfSubject">
+        </div>
+
+          <script>
+            console.log("hello");
+            const submitButton = document.getElementById("submitButton");
+            function displayListOfSubjects(year, semester) {
+                let listOfSubjectDiv = document.getElementById("listOfSubject");
+
+                listOfSubjectDiv.innerHTML = `
+                <p>List of subject : </p>
+                <p>Year : ${year}</p>
+                <p>Semester : ${semester}</p>
+                <p>Subjects : <br><br> COA <br> DBMS <br> Web Technologies <br> Networks <br> Artificial Intelligence</p>`; 
+
+
+            }
+            submitButton.addEventListener("click", function() {
+                console.log("submit button clicked");
+
+                const year = document.getElementById("year").value;
+                console.log("year = " );
+                console.log(year);
+
+                const semester = document.getElementById("semester").value;
+                console.log("semester: " );
+                console.log(semester);
+
+                displayListOfSubjects(year, semester);
+                
+            });
+          </script>
+    </body>
+</html>

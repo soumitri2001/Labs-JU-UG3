@@ -1,0 +1,101 @@
+<html>
+<body>
+    <div>
+        <label for="username">USERNAME : </label>
+        <input type="text" id="username" name="username" placeholder="enter username"><br><br>
+        <label for="password">PASSWORD : </label>
+        <input type="password" id="password" name="password" placeholder="enter paassword"><br><br>
+        <button id="submit" onclick=verification()>SUBMIT</button> <br>
+        
+        <span id="username_notify"></span> <br>
+        <span id="password_notify"></span> <br> 
+    </div>    
+    
+<script>
+    function checkUsername(username){
+        // alphanumeric char & '_', not exceed 10chars
+        error = document.getElementById("username_notify");
+        length = username.length;
+        console.log(length);
+        if(length > 10){
+            // alert("Username must be within 10 characters !!!");
+            error.innerHTML = "<span style='color: red;'>"+
+                        "Username must be within 10 characters !!!</span>"
+            return false;
+        }
+        else{
+            var uregex = /^[\w]+$/;
+            if(!uregex.test(username)){
+                // console.log("username regex false");
+                // alert("Username must be of alphanumeric characters !!!");
+                error.innerHTML = "<span style='color: red;'>"+
+                        "Username SHOULD BE alphanumeric characters only !!</span>"
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    function checkPassword(password){
+        // 6-10 char, atleast 1 digit, atleast 1 uppercase
+        error = document.getElementById("password_notify");
+        length = password.length;
+        if(length < 6 || length > 10){
+            // alert("Password must be between 6-10 characters !!!");
+            error.innerHTML = "<span style='color: red;'>"+
+                        "Password SHOULD BE between 6-10 characters only !!</span>"
+            return false;
+        }
+        else{
+            var pregex = /^(?=.*\d)(?=.*[A-Z])/;
+            if(!pregex.test(password)){
+                // alert("Password must contain atleast 1 digit and 1 uppercase character !!!");
+                error.innerHTML = "<span style='color: red;'>"+
+                        "Password SHOULD contain atleast 1 digit and 1 uppercase character !!</span>"
+                return false;
+            }
+
+        }
+        return true;
+    }
+    function verification(){
+        // alert("HELLO !!!");
+        username_notify = document.getElementById("username_notify");
+        password_notify = document.getElementById("password_notify");
+        var username = document.getElementById("username").value;
+        // console.log(username);
+        var password = document.getElementById("password").value;
+        // console.log(password);
+        var u = false,p = false;
+        if(checkUsername(username)){
+            // console.log("Username is OK !!!");
+            u = true;
+            username_notify.innerHTML = "<span style='color: green;'>"+
+                        "Username is OK !!!</span>"
+        }
+        
+        if(checkPassword(password)){
+            // show password error msg
+            // console.log("Password is OK !!!");
+            p = true;
+            password_notify.innerHTML = "<span style='color: green;'>"+
+                        "Password is OK !!!</span>"
+        }
+
+        if(u == true && p == true){
+            location = "login.html";
+        }
+
+        
+
+        
+
+    }
+    
+</script>
+
+</body>
+</html>
+

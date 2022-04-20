@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Insert into Database</title>
+</head>
+
+<body>
+    <h1>Create an account</h1>
+    <form action="add.jsp" method="post" id="form">
+        <label for="loginName">Login Name: </label>
+        <input required type="text" name="loginName" id="loginName">
+        <br>
+        <label for="pass">Password: </label>
+        <input required type="password" name="pass" id="pass">
+        <br>
+        <label for="confirmPass">Confirm password: </label>
+        <input required type="password" name="confirmPass" id="confirmPass">
+        <br>
+        <label for="email">Email: </label>
+        <input required type="email" name="email" id="email">
+        <br>
+        <label for="name">Name: </label>
+        <input required type="text" name="name" id="name">
+        <br>
+        <label for="phone">Phone no: </label>
+        <input required type="tel" id="phone" name="phone" pattern="[0-9]{10}">
+        <br><br>
+        <button>Submit</button>
+    </form>
+    <p id="message"></p>
+
+
+    <script>
+        var form = document.getElementById("form")
+        var message = document.getElementById("message")
+
+        form.addEventListener("submit", function(e) {
+            console.log("Trying to create account!");
+            if (e.target["pass"].value !== e.target["confirmPass"].value) {
+                message.innerHTML = "Passwords don't match";
+                e.preventDefault();
+            } else {
+                message.innerHTML = "";
+            }
+        });
+    </script>
+</body>
+
+</html>

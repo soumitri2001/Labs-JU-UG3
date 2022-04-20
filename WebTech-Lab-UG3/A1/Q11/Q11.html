@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+   <head>
+      <button onclick = "showAdd()">Add</button>
+      <button onclick = "showRead()">Show</button>
+      <button onclick="showUpdate()">Update</button>
+      <button onclick = "showDelete()">Delete</button>
+
+    <div id="addBox" class="form" style="display:none;">
+         Name : <input type="text" name="name" id="name"><br>
+         Manufacturer : <input type="text" name="manufacturer" id="mfr"><br>
+         Price : <input type="decimal" name="price" id="price"><br>
+         <button onclick="add()">Add</button>
+      </div>
+
+      <div id="updateBox" class="form" style="display:none;">
+         Name : <input type="text" name="name" id="nameU"><br>
+         Manufacturer : <input type="text" name="manufacturer" id="mfrU"><br>
+         Price : <input type="decimal" name="price" id="priceU"><br>
+         <button onclick="update()">Update</button>
+      </div>
+      
+      <div id="deleteBox" class="form" style="display:none;"><br>
+         Name : <input type="text" name="name" id="nameD"><br>
+         Manufacturer : <input type="text" name="manufacturer" id="mfrD"><br>
+         <button onclick="remove()">Delete</button>
+      </div>
+
+      <table border="0" id="readBox" class="form" style="display:none">
+         <tr><th>Name</th><th>Manufacturer</th><th>Price</th></tr>
+      </table>
+   
+   </head>
+   <body>
+      <meta http-equiv = "Content-Type" content = "text/html; charset = utf-8" />
+      <script type = "text/javascript">
+      	 flag=false;
+         
+         //prefixes of implementation that we want to test
+         window.indexedDB = window.indexedDB || window.mozIndexedDB || 
+         window.webkitIndexedDB || window.msIndexedDB;
+         
+         //prefixes of window.IDB objects
+         window.IDBTransaction = window.IDBTransaction || 
+         window.webkitIDBTransaction || window.msIDBTransaction;
+         window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || 
+         window.msIDBKeyRange
+         
+         if (!window.indexedDB) {
+            window.alert("IndexedDB not supported by browser !")
+         }
+         
+         var db;
+         var request = window.indexedDB.open("Store", 1);
+         
+         request.onerror = function(event) {
+            console.log("error: ");
+         };
+         
+         request.onsuccess = function(event) {
+            db = request.result;
+            console.log("success: "+ db);
+         };
+         
+         request.onupgradeneeded = function(event) {
+            var db = event.target.result;
+            var objectStore = db.createObjectStore("Parts", {keyPath: ["name", "manufacturer"]});
+            objectStore.createIndex("price", "price", {unique : false});
+         }
+         
+         function read() {
+         	flag=true;
+         	var table=document.getElementById("readBox");
+         	table.innerHTML="<tr><th>Name</th><th>Manufacturer</th><th>Price</th></tr>";
+            var objectStore = db.transaction("Parts").objectStore("Parts");
+            
+            objectStore.openCursor().onsuccess = function(event) {
+               var cursor = event.target.result;
+               
+               if (cursor) {
+               	  
+               	  var row=table.insertRow(1);
+               	  var na=row.insertCell(0);
+               	  var mf=row.insertCell(1);
+               	  var pr=row.insertCell(2);
+               	  na.innerHTML=cursor.value.name;
+               	  mf.innerHTML=cursor.value.manufacturer;
+               	  pr.innerHTML=cursor.value.price;
+                  //alert("Name : " + cursor.value.name + " Manufacturer : " + cursor.value.manufacturer + " Price: " + cursor.value.price);
+                  cursor.continue();
+               } else {
+                  console.log("No more entries!");
+               }
+            };
+         }
+         
+         function add() {
+
+         	var item={
+				name:document.getElementById("name").value,
+				manufacturer:document.getElementById("mfr").value, 
+				price:document.getElementById("price").value
+			};
+			console.log(item);
+			var req=db.transaction(["Parts"], "readwrite")
+					.objectStore("Parts")
+					.add(item);
+			req.onsuccess=function(event){
+				console.log("Written successfully");
+			};
+			req.onerror=function(event){
+				console.log("Error adding data");
+			};
+			var y=document.getElementById("addBox");
+         	y.style.display="none";
+         }
+         
+         function update()
+         {
+         	var name=document.getElementById("nameU").value;
+         	var mfr=document.getElementById("mfrU").value;
+         	var price=document.getElementById("priceU").value;
+         	//alert(name+mfr+price);
+         	var objectStore=db.transaction(["Parts"],"readwrite").objectStore("Parts");
+         	objectStore.openCursor().onsuccess=function(event) {
+         		var cursor=event.target.result;
+         		if(cursor){
+         			if(cursor.value.name==name && cursor.value.manufacturer==mfr){
+         				var updateData = cursor.value;
+         				updateData.price=price;
+         				var req=cursor.update(updateData);
+         				req.onsuccess=function(e) {
+         					console.log("Updated successfully");
+         				}
+         			}
+         			else
+         				cursor.continue();
+         		}
+         		else
+         			console.log("Entry not found !");
+
+         	};
+         }
+
+        function remove() {
+        	var name=document.getElementById("nameD").value;
+        	var mfr=document.getElementById("mfrD").value;
+        	var item=[name,mfr];
+            var request = db.transaction(["Parts"], "readwrite")
+            .objectStore("Parts")
+            .delete(item);
+            
+            request.onsuccess = function(event) {
+               console.log("item deleted successfully.");
+            };
+        }
+         function showAdd()
+         {
+         	var x=document.getElementsByClassName("form");
+         	for(i=0;i<x.length;i++)
+         		x[i].style.display="none";
+         	var y=document.getElementById("addBox");
+         	y.style.display="block";
+         }
+         function showUpdate()
+         {
+         	var x=document.getElementsByClassName("form");
+         	for(i=0;i<x.length;i++)
+         		x[i].style.display="none";
+         	var y=document.getElementById("updateBox");
+         	y.style.display="block";
+         }
+         function showDelete()
+         {
+         	var x=document.getElementsByClassName("form");
+         	for(i=0;i<x.length;i++)
+         		x[i].style.display="none";
+         	var y=document.getElementById("deleteBox");
+         	y.style.display="block";
+         }
+         function showRead()
+         {
+         	var x=document.getElementsByClassName("form");
+         	for(i=0;i<x.length;i++)
+         		x[i].style.display="none";
+         	var y=document.getElementById("readBox");
+         	y.style.display="block";
+         	read();
+         }
+      </script>
+      
+   </body>
+</html>

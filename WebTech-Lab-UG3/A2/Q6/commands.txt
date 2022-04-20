@@ -1,0 +1,29 @@
+ CREATE TABLE states (
+      stateId INT,
+      state VARCHAR(20),
+      PRIMARY KEY (stateId)
+ );
+
+CREATE TABLE districts (
+      stateId INT REFERENCES states (stateId),
+      district VARCHAR (30),
+      info VARCHAR (500),
+      PRIMARY KEY (district)
+);
+
+INSERT INTO TABLE states VALUES (1, 'West Bengal');
+INSERT INTO states VALUES (2, 'Maharashtra');
+INSERT INTO states VALUES (3, 'Odisha');
+
+INSERT INTO districts VALUES (1, 'Kolkata', 'Kolkata (formerly Calcutta) is the capital of West Bengal state. Founded as an East India Company trading post, it was Indian capital under the British Raj.');
+INSERT INTO districts VALUES (1, 'Howrah', 'Howrah is the second smallest district after Kolkata. It has thousands of years of rich heritage in the form of the great Bengali kingdom of Bhurshut. The district is named after its headquarters, the city of Howrah.');
+INSERT INTO districts VALUES (1, 'Bardhaman', 'Bardhaman district (also spelled Burdwan or Barddhaman or Vardhaman) was a district in West Bengal.T he headquarters of the district was Bardhaman, and it housed the cities of Asansol and Durgapur. Indian revolutionary Rashbehari Bose was born in village Subaldaha, Bardhaman district.');
+
+INSERT INTO districts VALUES (2, 'Ahmednagar', 'Ahmednagar district is the largest district of Maharashtra state in western India. The historical Ahmednagar city is the headquarters of the district. Ahmednagar and Sangamner are largest cities in the district.');
+INSERT INTO districts VALUES (2, 'Aurangabad', 'Aurangabad District is one of the 36 districts of the state of Maharashtra in western India.');
+INSERT INTO districts VALUES (2, 'Mumbai City', 'Mumbai City District is a district of Maharashtra in Konkan Division. As a city district, it has no headquarters or subdivisions. It, along with the Mumbai Suburban District, makes up the metropolis of Mumbai.');
+
+INSERT INTO districts VALUES (3, 'Cuttack', 'Cuttack is located in the coastal part of the state and its administrative headquarters are located in the city of Cuttack. As of 2011 Census, after Ganjam, it is the second most populous district of Odisha (out of 30), with a population of 2,624,470.');
+INSERT INTO districts VALUES (3, 'Balasore', 'Balasore District also known as Baleswar District or Baleshwar District, is an administrative district of Odisha state, in eastern India. Balasore is one of the coastal districts of Odisha and lies on the northernmost part of the state.');
+INSERT INTO districts VALUES (3, 'Debagarh', 'Debagarh District also known as Deogarh District is a district of Odisha state, India. Located in the north-western part of the state, it is one of the 30 administrative districts and has its headquarters at Deogarh town.');
+INSERT INTO districts VALUES (3, 'Mayurbhanj', 'Mayurbhanj district is one of the 30 districts in Odisha state in eastern India. It is the largest district of Odisha by area. Its headquarters are at Baripada.');

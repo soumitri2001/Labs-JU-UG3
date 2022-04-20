@@ -1,0 +1,5 @@
+CACHE MANIFEST
+#files to be cached
+CACHE:
+download.jpg
+demo.js

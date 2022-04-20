@@ -1,0 +1,38 @@
+<html>
+  <h3>Welcome to Bill Payment !!</h3>
+  <style>
+        .hide {
+      display: none;
+    }
+  </style>
+  <body>
+      <p>Please select a payment method:</p>
+      <div>
+        <input type="radio" id="payNow" name="drone" value="Pay Now">Pay Now
+        <br>
+        <input type="radio" id="payLater" name="drone" value="Pay Later">Pay Later
+      </div>
+
+      <br>
+      <div id="paymentDate" class="hide">
+          
+          <div>Enter Payment Date : </div>
+          <input type="text" id="paymentDate" name="paymentDate">
+      </div>
+
+        <script>
+          const payLaterButton = document.getElementById('payLater');
+          document.getElementById("paymentDate").classList.add("hidden");
+          // adding eventlistener
+          document.getElementById("payNow").addEventListener("change", function() {
+              document.getElementById("paymentDate").classList.add("hidden");
+          });
+          // adding eventlistener
+          payLaterButton.addEventListener("change", function() {
+              console.log("paylater clicked");
+              document.getElementById("paymentDate").style.display = 'block';
+          });
+
+        </script>
+  </body>
+</html>

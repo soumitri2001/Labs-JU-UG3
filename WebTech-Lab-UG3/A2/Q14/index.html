@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks</title>
+</head>
+<body>
+    <h4>
+        Suppose, the ODD (1/3/5/7) Semester Exams have passed recently. <br/>
+        The students can check their results of the last ODD semester in this website. <br/>
+        To do so, first select the last odd semester exam that you appeared in. 
+        Then you have to select your roll number and the subject. <br/><br/>
+    </h4>
+    <form>
+        <select id="semester" onChange="semesterChangeHandler()">
+            <option value="" disabled selected>
+                Select the semester
+            </option>
+            <option value="1">First Semester</option>
+            <option value="3">Third Semester</option>
+            <option value="5">Fifth Semester</option>
+            <option value="7">Seventh Semester</option>
+        </select>
+
+        <select id="roll" style="display:none;"></select>
+        <select id="subject" style="display:none;"></select>
+        <button id="submitBtn" type="button" onClick="submitHandler()" style="display:none;">Submit</button>
+    </form>
+
+    <br/><br/>
+    
+    <div id="marksContainer" style="display: none;">
+        <h4>Marks Obtained is: </h4>
+        <h1 id="marksObtained"></h1>
+    </div>
+
+    <script>
+        let httpReq, httpReq2;
+
+        function semesterChangeHandler () {
+            console.log("handling semester change");
+            httpReq = new XMLHttpRequest();
+            if (!httpReq) {
+				alert('Giving up :( Cannot create an XMLHTTP instance');
+				return false;
+			}
+            try{
+                let semester = document.getElementById('semester');
+                let roll = document.getElementById('roll');
+                let subject = document.getElementById('subject');
+                let submitButton = document.getElementById('submitBtn');
+                        
+                semester = semester.value;
+                console.log(semester);
+                httpReq.onreadystatechange = receiveRollAndSem;
+                httpReq.open('GET', 'info.jsp?semester=' + semester, true);
+                httpReq.send();
+            }catch(e){
+                console.log("Error occured: ", e);
+            }
+        }
+
+        function receiveRollAndSem(){
+            if (httpReq.readyState == 4){
+                console.log(httpReq.status);
+                if (httpReq.status == 200){
+                    let rollsData = httpReq.responseText;
+
+                    rollsData = rollsData.replaceAll('\r', '');
+			        rollsData = rollsData.split('\n');
+                    for (let i = 0; i < rollsData.length; i++) {
+                        if (rollsData[i]===''){
+                            console.log("deleted data: ", rollsData[i]);
+                            rollsData.splice(i, 1);
+                            i--;
+                        }
+                    }
+
+                    console.log(rollsData);
+
+                    roll.innerHTML = "";
+                    subject.innerHTML = "";
+                    let i=0;
+                    for (i=0; i<rollsData.length && rollsData[i]!="rollEnds"; i++){
+                        roll.options[roll.options.length] = new Option(rollsData[i], rollsData[i]);
+                    }
+                    roll.style.display = 'block';
+                    i++;
+                    for (; i<rollsData.length; i++){
+                        subject.options[subject.options.length] = new Option(rollsData[i], rollsData[i]);
+                    }
+                    subject.style.display = 'block';
+                    submitBtn.style.display = 'block';
+                }
+                else{
+                    console.log("Error in receiving the response");
+                }
+            }
+        }
+
+        function submitHandler(){
+            console.log("handling submit button press");
+            httpReq2 = new XMLHttpRequest();
+            if (!httpReq) {
+				alert('Giving up :( Cannot create an XMLHTTP instance');
+				return false;
+			}
+            try{
+                let semester = document.getElementById('semester').value;
+                let roll = document.getElementById('roll').value;
+                let subject = document.getElementById('subject').value;
+                let submitButton = document.getElementById('submitBtn');
+                        
+                console.log(semester, roll, subject);
+                httpReq.onreadystatechange = receiveMarks;
+                httpReq.open('GET', 'info.jsp?semester=' + semester
+                     + '&rollNo=' + roll + '&subject=' + subject, true);
+                httpReq.send();
+            }catch(e){
+                console.log("Error occured: ", e);
+            }
+        }
+
+        function receiveMarks(){
+            if (httpReq.readyState == 4){
+                console.log(httpReq.status);
+                if (httpReq.status == 200){
+                    let marksData = httpReq.responseText;
+
+                    marksData = marksData.replaceAll('\r', '');
+			        marksData = marksData.split('\n');
+                    console.log(marksData);
+                    
+                    for (let i = 0; i < marksData.length; i++) {
+                        if (marksData[i]===''){
+                            console.log("deleted data: ",marksData[i]);
+                            marksData.splice(i, 1);
+                            i--;
+                        }
+                    }
+
+                    console.log(marksData);
+
+                    const marksObt = document.getElementById('marksObtained');
+                    const marksCon = document.getElementById('marksContainer');
+                    marksObtained.innerHTML = marksData[0];
+                    marksCon.style.display = 'block';
+                }
+                else{
+                    console.log("Error in receiving the response");
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

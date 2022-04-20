@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE question-paper SYSTEM "./Q9.dtd">
+<question-paper>
+    <question no="1">
+        <text>What is the capital of India ?</text>
+        <optionA>Kolkata</optionA>
+        <optionB>New Delhi</optionB>
+        <optionC>Mumbai</optionC>
+        <optionD>Prayagraj</optionD>
+        <answer value='optionB'>New Delhi</answer>
+</question>
+</question-paper>

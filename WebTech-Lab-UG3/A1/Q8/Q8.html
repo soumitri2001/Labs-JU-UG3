@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>States and Districts of India</title>
+        <script type="text/javascript">
+            function showDistricts() {
+                document.getElementById("description").innerText = "";
+                var dis = [
+                    [],
+                    ["Jaipur", "Jodhpur"],
+                    ["Kolkata", "Howrah", "Durgapur"],
+                ];
+                var row = document.getElementById("state").value;
+                var elem = document.getElementById("district");
+                elem.innerHTML = "";
+                var opt = document.createElement("option");
+                opt.value = 0;
+                var text = document.createTextNode("Choose a District");
+                opt.appendChild(text);
+                elem.appendChild(opt);
+                for (var i = 0; i < dis[row].length; i++) {
+                    var opt = document.createElement("option");
+                    opt.value = i + 1;
+                    opt.innerHTML = dis[row][i];
+                    elem.appendChild(opt);
+                }
+            }
+
+            function showDescription() {
+                var descriptions = [
+                    [""],
+                    [
+                        "",
+                        "Rajasthan ; Jaipur",
+                        "Rajasthan ; Jodhpur",
+                    ],
+                    [
+                        "",
+                        "West Bengal ; Kolkata",
+                        "West Bengal ; Howrah",
+                        "West Bengal ; Durgapur",
+                    ],
+                ];
+
+                const description = document.getElementById("description");
+                var state = document.getElementById("state").value;
+                var district = document.getElementById("district").value;
+                description.innerText = descriptions[state][district];
+            }
+        </script>
+    </head>
+    <body>
+        <label for="states">State : </label>
+        <select id="state" onchange="showDistricts()">
+            <option value="0">Choose a state</option>
+            <option value="1">Rajasthan</option>
+            <option value="2">West Bengal</option>
+        </select>
+        <br><br>
+        <label for="district">District : </label>
+        <select id="district" onchange="showDescription()"></select>
+        <h3 id="description"></h3>
+    </body>
+</html>
